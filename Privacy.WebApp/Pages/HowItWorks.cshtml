@@ -1,0 +1,206 @@
+﻿@page
+@model Privacy.WebApp.Pages.HowItWorksModel
+@{
+    ViewData["Title"] = "Como funciona";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Privacy | @ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script>
+        $(function () {
+            $("#sliderSeguidor").slider({
+                value: 10000,
+                min: 1000,
+                max: 1000000,
+                step: 1000,
+                slide: function (event, ui) {
+                    $("#labelSeguidor").val(formatarNumero(ui.value));
+                    $("#amountValorInicial").val("R$ " + parseInt(ui.value * TransformarNumero($("#labelValor").val()) / 100).toLocaleString('pt-br'));
+                    $("#amountValorFinal").val("R$ " + parseInt(ui.value * TransformarNumero($("#labelValor").val()) / 100 * 5).toLocaleString('pt-br'));
+                    //$('#valueSeguidor').text(ui.value).css('left', (ui.value - 0.5) + '%');
+                }
+            });
+            $('#minSeguidor').text(formatarNumero($('#sliderSeguidor').slider('option', 'min')));
+            $('#maxSeguidor').text(formatarNumero($('#sliderSeguidor').slider('option', 'max')));
+            $("#labelSeguidor").val(formatarNumero($("#sliderSeguidor").slider("value")));
+
+            $("#sliderValor").slider({
+                value: 50,
+                min: 20,
+                max: 100,
+                step: 1,
+                slide: function (event, ui) {
+                    $("#labelValor").val("R$ " + ui.value.toLocaleString('pt-br'));
+                    $("#amountValorInicial").val("R$ " + parseInt(ui.value * TransformarNumero($("#labelSeguidor").val()) / 100).toLocaleString('pt-br'));
+                    $("#amountValorFinal").val("R$ " + parseInt(ui.value * TransformarNumero($("#labelSeguidor").val()) / 100 * 5).toLocaleString('pt-br'));
+                    //$('#valueValor').text("R$ " + ui.value).css('left', (ui.value - 0.5) + '%');
+                }
+            });
+            $('#minValor').text("R$ " + $('#sliderValor').slider('option', 'min').toLocaleString('pt-br'));
+            $('#maxValor').text("R$ " + $('#sliderValor').slider('option', 'max').toLocaleString('pt-br'));
+            $("#labelValor").val("R$ " + $("#sliderValor").slider("value").toLocaleString('pt-br'));
+
+            $("#amountValorInicial").val("R$ " + parseInt(TransformarNumero($("#labelSeguidor").val()) * TransformarNumero($("#labelValor").val()) / 100).toLocaleString('pt-br'));
+            $("#amountValorFinal").val("R$ " + parseInt(TransformarNumero($("#labelSeguidor").val()) * TransformarNumero($("#labelValor").val()) / 100 * 5).toLocaleString('pt-br'));
+        });
+
+        function formatarNumero(n) {
+            var n = n.toString();
+            var r = '';
+            var x = 0;
+
+            for (var i = n.length; i > 0; i--) {
+                r += n.substr(i - 1, 1) + (x == 2 && i != 1 ? '.' : '');
+                x = x == 2 ? 0 : x + 1;
+            }
+
+            return r.split('').reverse().join('');
+        }
+        function TransformarNumero(n) {
+            return n.replace('R$ ', '').replace('.', '').replace(',', '.');
+
+        }
+    </script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bulma.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <style>
+        #sliderSeguidor {
+            position: relative;
+            font-size: .9rem;
+            color: #999;
+            margin-left: 45px;
+            margin-right: 60px;
+        }
+
+            #sliderSeguidor span {
+                position: absolute;
+                top: -5px;
+            }
+
+        #minSeguidor {
+            left: -50px;
+        }
+
+        #maxSeguidor {
+            right: -80px;
+        }
+
+        #valueSeguidor {
+            z-index: 5;
+        }
+
+        #sliderValor {
+            position: relative;
+            font-size: .9rem;
+            color: #999;
+            margin-left: 45px;
+            margin-right: 60px;
+        }
+
+            #sliderValor span {
+                position: absolute;
+                top: -5px;
+            }
+
+        #minValor {
+            left: -60px;
+        }
+
+        #maxValor {
+            right: -80px;
+        }
+
+        #valueValor {
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-wrapper">
+
+        <div class="outer-panel">
+            <div class="outer-panel-inner">
+                <div id="signup-panel-5" class="process-panel-wrap is-active">
+                    <div class="form-panel">
+                        <a href="/Login"><img class="success-image" src="~/assets/img/telaLogin/LogoLaranja.png" alt=""></a>
+                        <div class="success-text">
+                            <h3>Como o <strong>Privacy</strong> funciona</h3>
+                            <br />
+                            <p>Se você possui outras redes sociais e produz o seu próprio conteúdo, você já devia estar no Privacy!</p>
+                            <br />
+                            <p>Poste fotos, vídeos, ensaios e até mesmo o conteúdo que quiser, que os seus seguidores estão dispostas a pagar.</p>
+                            <br />
+                            <p>Quanto consigo por mês?</p>
+                            <br />
+                            <p># de seguidores?</p>
+                            <p>
+                                <input type="text" id="labelSeguidor" readonly style="border:0; font-weight:bold;text-align:center;">
+                            </p>
+                            <br />
+                            <div id="sliderSeguidor">
+                                <span id="minSeguidor"></span>
+                                <span id="valueSeguidor"></span>
+                                <span id="maxSeguidor"></span>
+                            </div>
+                            <br />
+                            <p>Valor da sua subscrição?</p>
+                            <p>
+                                <input type="text" id="labelValor" readonly style="border:0; font-weight:bold;text-align:center;">
+                            </p>
+                            <br />
+                            <div id="sliderValor">
+                                <span id="minValor"></span>
+                                <span id="valueValor"></span>
+                                <span id="maxValor"></span>
+                            </div>
+                            <br />
+                            <br />
+                            <p>
+                                Você pode fazer entre <input type="text" id="amountValorInicial" readonly style="border:0; font-weight:bold; min-width:45px;max-width:70px;text-align:center;"> e <input type="text" id="amountValorFinal" readonly style="border:0; font-weight:bold;max-width:85px;text-align:center;"> por mês.*
+                            </p>
+                            <br />
+                            <p>*Baseado em que de 1% a 5% dos seus seguidores subscrevam ao seu perfil. Neste valor não está contabilizado o faturamento com mensagens privadas, gorjeta e vídeos ao vivo.</p>
+                            <a id="signup-finish" class="button is-fullwidth is-rounded" href="\SignUp">Venha ganhar conosco!</a>
+                            <br /><br />
+                            <div class="control" style="color:gray !important;text-align:center;">
+                                <span>&copy;@DateTime.Now.Year <a href="/Login" style="color:gray !important;">Privacy</a></span>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="#" style="color:gray !important;">Blog</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="https://twitter.com/sejaprivacy/" target="_blank" style="color:gray !important;">Twitter</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="https://www.instagram.com/privacy.app/" target="_blank" style="color:gray !important;">Instagram</a>&nbsp;
+                            </div>
+                            <br />
+                            <div class="control" style="color:gray !important;text-align:center;">
+                                <a href="#" style="color:gray !important;">FAQs</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="#" style="color:gray !important;">Termo</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="/Privacy" style="color:gray !important;">Privacidade</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="mailto:contato@privacy.com.br,atendimento@privacy.com.br" style="color:gray !important;">Contato</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="/HowItWorks" style="color:gray !important;">Como funciona</a>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

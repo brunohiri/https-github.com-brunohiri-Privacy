@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.map"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.min.map"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Privacy | @ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bulma.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/core.css">
+
+</head>
+<body>
+    @RenderBody()
+    <!-- BOOTBOX -->
+    @*<script src="../assets/js/bootbox/bootbox.min.js"></script>*@
+
+
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="../assets/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <!-- Core js -->
+
+
+    <script src="../assets/data/tipuedrop_content.js"></script>
+    <script src="../assets/js/global.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page and UI related js -->
+    <script src="../assets/js/signup.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,1540 @@
+﻿@page
+@model Privacy.WebApp.Pages.MyProfile
+@{
+    ViewData["Title"] = "Meu Perfil";
+    Layout = "~/Pages/Shared/_LayoutIn.cshtml";
+}
+@using Privacy.Business.Util;
+@using System.Net;
+<script src="~/assets/js/Perfil.js"></script>
+<!-- Container -->
+<div class="container is-custom">
+
+    <!-- Profile page main wrapper -->
+    <div id="profile-about" class="view-wrap is-headless">
+        <div class="columns is-multiline no-margin">
+            <!-- Left side column -->
+            <div class="column is-paddingless">
+                <!-- Timeline Header -->
+                <div class="cover-bg">
+                    <img class="cover-image" src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa :"/FotoCapa/default.jpg")" data-demo-src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa :"/FotoCapa/default.jpg")" alt="">
+                    <div class="avatar">
+                        <img id="user-avatar" class="avatar-image" src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
+                        <div class="avatar-button">
+                            <i data-feather="plus"></i>
+                        </div>
+                        <div class="pop-button is-far-left has-tooltip modal-trigger" data-modal="change-profile-pic-modal" data-placement="right" data-title="Alterar foto do perfil">
+                            <a class="inner">
+                                <i data-feather="camera"></i>
+                            </a>
+                        </div>
+                        <div id="follow-pop" class="pop-button pop-shift is-left has-tooltip" data-placement="top" data-title="Sobre mim">
+                            <a class="inner">
+                                <i class="inactive-icon" data-feather="bell"></i>
+                                <i class="active-icon" data-feather="bell-off"></i>
+                            </a>
+                        </div>
+                        <div id="invite-pop" class="pop-button pop-shift is-center has-tooltip" data-placement="top" data-title="Relacionamento">
+                            <a href="#" class="inner">
+                                <i class="inactive-icon" data-feather="plus"></i>
+                                <i class="active-icon" data-feather="minus"></i>
+                            </a>
+                        </div>
+                        <div id="chat-pop" class="pop-button is-right has-tooltip" data-placement="top" data-title="Chat">
+                            <a class="inner">
+                                <i data-feather="message-circle"></i>
+                            </a>
+                        </div>
+                        <div class="pop-button is-far-right has-tooltip" data-placement="right" data-title="Enviar mensagem">
+                            <a href="messages-inbox.html" class="inner">
+                                <i data-feather="mail"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="cover-overlay"></div>
+                    <div class="cover-edit modal-trigger" data-modal="change-cover-modal">
+                        <i class="mdi mdi-camera"></i>
+                        <span>Alterar foto de capa</span>
+                    </div>
+                    <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
+                    <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
+                        <div>
+                            <div class="button">
+                                <i data-feather="more-vertical"></i>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#profile-timeline-posts" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="activity"></i>
+                                        <div class="media-content">
+                                            <h3>Linha do Tempo</h3>
+                                            <small>Abrir linha do tempo.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="align-right"></i>
+                                        <div class="media-content">
+                                            <h3>Sobre</h3>
+                                            <small>Conheça mais sobre mim.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileFriends?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="heart"></i>
+                                        <div class="media-content">
+                                            <h3>Seguidores</h3>
+                                            <small>Ver todos</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="image"></i>
+                                        <div class="media-content">
+                                            <h3>Fotos</h3>
+                                            <small>Ver todas as fotos.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-menu is-hidden-mobile">
+                    <div class="menu-start">
+                        <a href="#profile-timeline-posts" class="button has-min-width">Linha do Tempo</a>
+                        <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="button has-min-width">Sobre</a>
+                    </div>
+                    <div class="menu-end">
+                        <a id="profile-friends-link" href="/ProfileFriends?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="button has-min-width">Seguidores</a>
+                        <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="button has-min-width">Fotos</a>
+                    </div>
+                </div>
+
+                <div class="profile-subheader">
+                    <div class="subheader-start is-hidden-mobile">
+
+                    </div>
+                    <div class="subheader-middle">
+                        <h2>@Model.Entity.Nome</h2>
+                        <span> <i class="mdi mdi-map-marker"></i>@Model.Entity.Cidade, @Model.Entity.Pais</span>
+                    </div>
+                    <div class="subheader-end is-hidden-mobile">
+                        <a class="button has-icon is-bold" href="#profile-timeline-posts">
+                            <i data-feather="clock"></i>
+                            Postagens
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column">
+
+            <!-- About sections -->
+            <div class="profile-about side-menu">
+                <div class="left-menu">
+                @{
+                    if (Model.Entity.PerfilPublico)
+                    {
+                        <form method="post" asp-page="MyProfile" asp-page-handler="SalvarValores">
+
+                            <div class="left-menu-inner">
+                                <div class="menu-item">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-account-heart"></i>
+                                        @*<span>Assine por R$ 14,90/mês</span>*@
+                                        <span>
+                                            <input type="text" class="valorProduto" placeholder=" Valor mensal" id="valorMensal" name="ValorMensal" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="menu-item is-active">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-tag"></i>
+                                        <span>Pacotes de Assinatura</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-account-heart"></i>
+                                        @*<span>3 meses por R$ 29,90 (10%)</span>*@
+                                        <span>
+                                            <input type="text" class="valorProduto" placeholder=" Valor trimestral (10%)" id="valorTrimestral" name="ValorTrimestral" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-account-heart"></i>
+                                        @*<span>6 meses por R$ 59,90 (20%)</span>*@
+                                        <span>
+                                            <input type="text" class="valorProduto" placeholder=" Valor semestral (20%)" id="valorSemestral" name="ValorSemestral" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <p>
+                                    <button class="button is-solid accent-button replace-button" style="margin-left: 65px;">Salvar Valores</button>
+                                </p>
+                                <p>
+                                    <span style="" class="has-text-success">@(Model.Mensagem.IsNullOrEmpty() ? string.Empty : Model.Mensagem)</span>
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }                   
+                </div>
+                <div class="right-content">
+                    <div id="overview-content" class="content-section is-active">
+                        <div class="columns">
+                            <div class="column">
+                                <div class="about-summary" style="@(!Model.Entity.PerfilPublico ? "margin-left:-290px" : "")">
+                                    <form method="post" asp-page="MyProfile" asp-page-handler="SalvarSobreMim">
+                                        <div class="content">
+                                            <h3>Sobre mim</h3>
+                                            <p>
+                                                <i class="mdi mdi-map-marker" title="Cidade, País"></i>
+                                                <input type="text" class="input" id="PerfilCidadePais" name="PerfilCidadePais" value="@Model.Entity.Cidade, @Model.Entity.Pais" placeholder="Digite Cidade, País" style="width:150px;" />
+                                            </p>
+                                            <p>
+                                                <i class="mdi mdi-phone" title="Celular"></i>
+                                                <input type="text" class="input celular" id="PerfilCelular" name="PerfilCelular" value="@Model.Entity.Celular" style="width:150px;" />
+                                            </p>
+                                            <p>
+                                                <textarea id="PerfilSobreMim" name="PerfilSobreMim" rows="5" style="width:100%;text-align:left;padding:3px;margin-left:18px;" maxlength="140">@(Model.Entity.SobreMim.IsNullOrEmpty() ? "Conte-nos um pouco mais sobre você." : Model.Entity.SobreMim)</textarea>
+                                            </p>
+                                            <p>
+                                                <button class="button is-solid accent-button replace-button" style="margin-left: 18px;">Salvar</button>
+                                            </p>
+                                            <p>
+                                                <span style="" class="has-text-success">@(Model.Mensagem.IsNullOrEmpty() ? string.Empty : Model.Mensagem)</span>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <!-- Work block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-checkbox-marked-circle-outline"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0")
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>POSTS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Education block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-image-area"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdFotoNavigation != null).ToList().Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0")
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>FOTOS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Location block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-movie"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdVideoNavigation != null).ToList().Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0")
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>VÍDEOS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Family block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-thumb-up-outline"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.Curtida.Count() > 0).ToList().Count())));
+                                        }
+                                        else
+                                        {
+                                            @("0")
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>CURTIDAS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="column">
+
+            <div id="profile-timeline-posts" class="box-heading">
+                <h4>Postagens</h4>
+                <div class="button-wrap">
+                    <button type="button" class="button is-active">Recentes</button>
+                </div>
+            </div>
+
+            <div class="profile-timeline">
+
+                <!-- Timeline post 1 -->
+                <!-- html/partials/pages/profile/posts/timeline-post1.html -->
+                <!-- Timeline POST #1 -->
+                <div class="profile-post">
+                    <!-- Timeline -->
+                    <div class="time is-hidden-mobile">
+                        <div class="img-container">
+                            <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
+                        </div>
+                    </div>
+                    <!-- Post -->
+                    <div class="card is-post">
+                        <!-- Main wrap -->
+                        <div class="content-wrap">
+                            <!-- Header -->
+                            <div class="card-heading">
+                                <div class="user-block">
+                                    <div class="image">
+                                        <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" data-user-popover="0" alt="">
+                                    </div>
+                                    <div class="user-info">
+                                        <a href="#">@Model.Entity.Nome</a>
+                                        <span class="time">October 17 2018, 11:03am</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Header -->
+                            <!-- Post body -->
+                            <div class="card-body">
+                                <!-- Post body text -->
+                                <div class="post-text">
+                                    <p>
+                                        Today i visited this amazing little fashion store in Church street. Everything is handmade, from skirts
+                                        to bags. Their products really have an outstanding quality. If you don't know them already, well
+                                        it's time to make your move!
+                                    <p>
+                                </div>
+                                <!-- Featured image -->
+                                <div class="post-image">
+                                    <a data-fancybox="profile-post1" data-lightbox-type="comments" data-thumb="assets/img/demo/unsplash/8.jpg" href="https://via.placeholder.com/1600x900" data-demo-href="assets/img/demo/unsplash/8.jpg">
+                                        <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/8.jpg" alt="">
+                                    </a>
+                                    <!-- Post actions -->
+                                    <div class="like-wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                            <i class="mdi mdi-heart not-liked bouncy"></i>
+                                            <i class="mdi mdi-heart is-liked bouncy"></i>
+                                            <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="fab-wrapper is-share">
+                                        <a href="javascript:void(0);" class="small-fab share-fab modal-trigger" data-modal="share-modal">
+                                            <i data-feather="link-2"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="fab-wrapper is-comment">
+                                        <a href="javascript:void(0);" class="small-fab">
+                                            <i data-feather="message-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Post body -->
+                            <!-- Post footer -->
+                            <div class="card-footer">
+                                <div class="likers-text">
+                                    <p>
+                                        <a href="#">Milly</a>,
+                                        <a href="#">David</a>
+                                    </p>
+                                    <p>and 1 more liked this</p>
+                                </div>
+                                <!-- Post statistics -->
+                                <div class="social-count">
+                                    <div class="likes-count">
+                                        <i data-feather="heart"></i>
+                                        <span>32</span>
+                                    </div>
+                                    <div class="shares-count">
+                                        <i data-feather="link-2"></i>
+                                        <span>4</span>
+                                    </div>
+                                    <div class="comments-count">
+                                        <i data-feather="message-circle"></i>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Post footer -->
+                        </div>
+                        <!-- /Main wrap -->
+                        <!-- Comments -->
+                        <div class="comments-wrap is-hidden">
+                            <!-- Header -->
+                            <div class="comments-heading">
+                                <h4>
+                                    Comments
+                                    <small>(5)</small>
+                                </h4>
+                                <div class="close-comments">
+                                    <i data-feather="x"></i>
+                                </div>
+                            </div>
+                            <!-- Header -->
+                            <!-- Comments body -->
+                            <div class="comments-body has-slimscroll">
+
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/bobby.jpg" data-user-popover="8" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Bobby Brown</a>
+                                        <span class="time">1 hour ago</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>1</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                        <!-- Nested Comment -->
+                                        <div class="media is-comment">
+                                            <!-- User image -->
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/daniel.jpg" data-user-popover="3" alt="">
+                                                </div>
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="media-content">
+                                                <a href="#">Daniel Wellington</a>
+                                                <span class="time">3 minutes ago</span>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                                    et dolore magna aliqua.
+                                                </p>
+                                                <!-- Comment actions -->
+                                                <div class="controls">
+                                                    <div class="like-count">
+                                                        <i data-feather="thumbs-up"></i>
+                                                        <span>4</span>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Right side dropdown -->
+                                            <div class="media-right">
+                                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                    <div>
+                                                        <div class="button">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <div class="dropdown-content">
+                                                            <a class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="x"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Hide</h3>
+                                                                        <small>Hide this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Report</h3>
+                                                                        <small>Report this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Nested Comment -->
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/mike.jpg" data-user-popover="12" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Mike Lasalle</a>
+                                        <span class="time">Yesterday</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>3</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                        <!-- Nested Comment -->
+                                        <div class="media is-comment">
+                                            <!-- User image -->
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/lana.jpeg" data-user-popover="10" alt="">
+                                                </div>
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="media-content">
+                                                <a href="#">Lana Henrikssen</a>
+                                                <span class="time">3 minutes ago</span>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                                    et dolore magna aliqua.
+                                                </p>
+                                                <!-- Comment actions -->
+                                                <div class="controls">
+                                                    <div class="like-count">
+                                                        <i data-feather="thumbs-up"></i>
+                                                        <span>4</span>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Right side dropdown -->
+                                            <div class="media-right">
+                                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                    <div>
+                                                        <div class="button">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <div class="dropdown-content">
+                                                            <a class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="x"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Hide</h3>
+                                                                        <small>Hide this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Report</h3>
+                                                                        <small>Report this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Nested Comment -->
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/nelly.png" data-user-popover="9" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Nelly Schwartz</a>
+                                        <span class="time">2 days ago</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>1</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                            </div>
+                            <!-- Comments body -->
+                            <!-- Comments footer -->
+                            <div class="card-footer">
+                                <div class="media post-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <p class="image is-48x48">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/jenna.png" data-user-popover="0" alt="">
+                                        </p>
+                                    </div>
+                                    <!-- Textarea -->
+                                    <div class="media-content">
+                                        <div class="field">
+                                            <p class="control">
+                                                <textarea class="textarea comment-textarea" rows="5" placeholder="Write a comment..."></textarea>
+                                            </p>
+                                        </div>
+                                        <!-- Additional actions -->
+                                        <div class="actions">
+                                            <div class="action is-auto">
+                                                <i data-feather="at-sign"></i>
+                                            </div>
+                                            <div class="action is-upload">
+                                                <i data-feather="camera"></i>
+                                                <input type="file">
+                                            </div>
+                                            <a class="button is-solid primary-button raised">Post Comment</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Comments footer -->
+                        </div>
+                        <!-- /Comments -->
+                    </div>
+                    <!-- /Post -->
+                </div>
+                <!-- /Timeline POST #3 -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Change cover image modal -->
+<!--html/partials/pages/profile/timeline/modals/change-cover-modal.html-->
+<div id="change-cover-modal" class="modal change-cover-modal is-medium has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <div class="card">
+            <div class="card-heading">
+                <h3>Atualizar Capa</h3>
+                <!-- Close X button -->
+                <div class="close-wrap">
+                    <span class="close-modal">
+                        <i data-feather="x"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Placeholder -->
+                <div class="selection-placeholder">
+                    <div class="columns">
+                        <div class="column is-6">
+                            <!-- Selection box -->
+                            <div class="selection-box modal-trigger" data-modal="upload-crop-cover-modal">
+                                <div class="box-content">
+                                    <img src="assets/img/illustrations/profile/upload-cover.svg" alt="">
+                                    <div class="box-text">
+                                        <span>Subir</span>
+                                        <span>do seu dispositivo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <!-- Selection box -->
+                            <div class="selection-box modal-trigger" data-modal="user-photos-modal">
+                                <div class="box-content">
+                                    <img src="assets/img/illustrations/profile/change-cover.svg" alt="">
+                                    <div class="box-text">
+                                        <span>Escolher</span>
+                                        <span>de suas fotos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Change profile pic modal -->
+<!--html/partials/pages/profile/timeline/modals/change-profile-pic-modal.html-->
+<div id="change-profile-pic-modal" class="modal change-profile-pic-modal is-medium has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <div class="card">
+            <div class="card-heading">
+                <h3>Atualizar Foto de Perfil</h3>
+                <!-- Close X button -->
+                <div class="close-wrap">
+                    <span class="close-modal">
+                        <i data-feather="x"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Placeholder -->
+                <div class="selection-placeholder">
+                    <div class="columns">
+                        <div class="column is-6">
+                            <!-- Selection box -->
+                            <div class="selection-box modal-trigger" data-modal="upload-crop-profile-modal">
+                                <div class="box-content">
+                                    <img src="assets/img/illustrations/profile/change-profile.svg" alt="">
+                                    <div class="box-text">
+                                        <span>Subir</span>
+                                        <span>do seu dispositivo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <!-- Selection box -->
+                            <div class="selection-box modal-trigger" data-modal="user-photos-modal">
+                                <div class="box-content">
+                                    <img src="assets/img/illustrations/profile/upload-profile.svg" alt="">
+                                    <div class="box-text">
+                                        <span>Escolher</span>
+                                        <span>de suas fotos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- User photos and albums -->
+<!--html/partials/pages/profile/timeline/modals/user-photos-modal.html-->
+<div id="user-photos-modal" class="modal user-photos-modal is-medium has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-heading">
+                <h3>Escolher uma foto</h3>
+                <!-- Close X button -->
+                <div class="close-wrap">
+                    <span class="close-modal">
+                        <i data-feather="x"></i>
+                    </span>
+                </div>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                <!-- Tabs -->
+                <div class="nav-tabs-wrapper">
+                    <div class="tabs">
+                        <ul class="is-faded">
+                            <li class="is-active" data-tab="recent-photos"><a>Recentes</a></li>
+                            <li data-tab="all-photos"><a>Fotos</a></li>
+                            <li data-tab="photo-albums"><a>Álbuns</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Recent Photos -->
+                    <div id="recent-photos" class="tab-content has-slimscroll-md is-active">
+                        <!-- Grid -->
+                        <div class="image-grid">
+                            <div class="columns is-multiline">
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/3.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/4.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/9.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/2.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/13.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/11.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/17.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/22.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/8.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/18.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/20.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/21.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- All photos -->
+                    <div id="all-photos" class="tab-content has-slimscroll-md">
+                        <!-- Grid -->
+                        <div class="image-grid">
+                            <div class="columns is-multiline">
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/19.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/25.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/23.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/28.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/34.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/27.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/18.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/30.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/26.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/29.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/20.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/17.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/11.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/24.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/32.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/31.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/33.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Grid item -->
+                                <div class="column is-4">
+                                    <div class="grid-image">
+                                        <input type="radio" name="selected_photos">
+                                        <div class="inner">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/35.jpg" alt="">
+                                            <div class="inner-overlay"></div>
+                                            <div class="indicator gelatine">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Load more images -->
+                        <div class=" load-more-wrap has-text-centered">
+                            <a href="#" class="load-more-button">Load More</a>
+                        </div>
+                        <!-- /Load more images -->
+                    </div>
+
+                    <!-- Albums -->
+                    <div id="photo-albums" class="tab-content has-slimscroll-md">
+                        <!-- Grid -->
+                        <div class="albums-grid">
+                            <div class="columns is-multiline">
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-1">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/35.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Design and Colors</span>
+                                                <span>Added on sep 06 2018</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-2">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/19.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Friends and Family</span>
+                                                <span>Added on jun 10 2016</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>29</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-3">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/4.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Trips and Travel</span>
+                                                <span>Added on feb 14 2017</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>12</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-4">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/3.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Summer 2017</span>
+                                                <span>Added on aug 23 2017</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>32</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-5">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/20.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Winter 2017</span>
+                                                <span>Added on jan 07 2017</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>7</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Album item -->
+                                <div class="column is-6">
+                                    <div class="album-wrapper" data-album="album-photos-6">
+                                        <div class="album-image">
+                                            <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/2.jpg" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>Thanksgiving 2017</span>
+                                                <span>Added on nov 30 2017</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="image"></i>
+                                                <span>6</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="button is-solid accent-button replace-button is-disabled">Usar Foto</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Profile picture crop modal -->
+<!-- Profile picture crop modal -->
+<!--html/partials/pages/profile/timeline/modals/upload-crop-profile-modal.html-->
+<div id="upload-crop-profile-modal" class="modal upload-crop-profile-modal is-xsmall has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <form method="post" asp-page="MyProfile" asp-page-handler="UploadPerfil">
+            <div class="card">
+                @Html.AntiForgeryToken()
+                <div class="card-heading">
+                    <h3>Subir Foto</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                        <span class="close-modal">
+                            <i data-feather="x"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <label class="profile-uploader-box" for="upload-profile-picture">
+                        <span class="inner-content">
+                            <img src="assets/img/illustrations/profile/add-profile.svg" alt="">
+                            <span>Clique aqui para <br>subir uma foto de perfil</span>
+                        </span>
+                        <input type="file" id="upload-profile-picture" accept="image/*">
+                        <input type="hidden" id="FotoPerfil" name="FotoPerfil" />
+                    </label>
+                    <div class="upload-demo-wrap is-hidden">
+                        <div id="upload-profile"></div>
+                        <div class="upload-help">
+                            <a id="profile-upload-reset" class="profile-reset is-hidden">Limpar Foto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="submit-profile-picture" class="button is-solid accent-button is-fullwidth raised is-disabled">Usar Foto</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Cover image crop modal -->
+<!--html/partials/pages/profile/timeline/modals/upload-crop-cover-modal.html-->
+<div id="upload-crop-cover-modal" class="modal upload-crop-cover-modal is-large has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <form method="post" asp-page="MyProfile" asp-page-handler="UploadCapa">
+            <div class="card">
+                @Html.AntiForgeryToken()
+                <div class="card-heading">
+                    <h3>Subir Capa</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                        <span class="close-modal">
+                            <i data-feather="x"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <label class="cover-uploader-box" for="upload-cover-picture">
+                        <span class="inner-content">
+                            <img src="assets/img/illustrations/profile/add-cover.svg" alt="">
+                            <span>Clique aqui para <br>subir uma foto de capa</span>
+                        </span>
+                        <input type="file" id="upload-cover-picture" accept="image/*">
+                        <input type="hidden" id="FotoCapa" name="FotoCapa" />
+                    </label>
+                    <div class="upload-demo-wrap is-hidden">
+                        <div id="upload-cover"></div>
+                        <div class="upload-help">
+                            <a id="cover-upload-reset" class="cover-reset is-hidden">Limpar Foto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="submit-cover-picture" class="button is-solid accent-button is-fullwidth raised is-disabled">
+                        Usar Foto
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>       

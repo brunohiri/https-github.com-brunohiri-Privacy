@@ -1,0 +1,774 @@
+﻿@page
+@model Privacy.WebApp.ProfileAboutModel
+@{
+    ViewData["Title"] = "Perfil - Sobre";
+    Layout = "~/Pages/Shared/_LayoutIn.cshtml";
+}
+@using Privacy.Business.Util;
+@using System.Net;
+
+<script src="~/assets/js/ModalPagamento.js"></script>
+<!-- Container -->
+<div class="container is-custom">
+
+    <!-- Profile page main wrapper -->
+    <div id="profile-about" class="view-wrap is-headless">
+        <div class="columns is-multiline no-margin">
+            <!-- Left side column -->
+            <div class="column is-paddingless">
+                <!-- Timeline Header -->
+                <div class="cover-bg">
+                    <img class="cover-image" src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa :"/FotoCapa/default.jpg")" data-demo-src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa :"/FotoCapa/default.jpg")" alt="">
+                    <div class="avatar">
+                        <img id="user-avatar" class="avatar-image" src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
+                        <div class="pop-button is-far-left has-tooltip modal-trigger" data-modal="change-profile-pic-modal" data-placement="right" data-title="Alterar foto do perfil">
+                            <a class="inner">
+                                <i data-feather="camera"></i>
+                            </a>
+                        </div>
+                        <div id="follow-pop" class="pop-button pop-shift is-left has-tooltip" data-placement="top" data-title="Sobre mim">
+                            <a class="inner">
+                                <i class="inactive-icon" data-feather="bell"></i>
+                                <i class="active-icon" data-feather="bell-off"></i>
+                            </a>
+                        </div>
+                        <div id="invite-pop" class="pop-button pop-shift is-center has-tooltip" data-placement="top" data-title="Relacionamento">
+                            <a href="#" class="inner">
+                                <i class="inactive-icon" data-feather="plus"></i>
+                                <i class="active-icon" data-feather="minus"></i>
+                            </a>
+                        </div>
+                        <div id="chat-pop" class="pop-button is-right has-tooltip" data-placement="top" data-title="Chat">
+                            <a class="inner">
+                                <i data-feather="message-circle"></i>
+                            </a>
+                        </div>
+                        <div class="pop-button is-far-right has-tooltip" data-placement="right" data-title="Enviar mensagem">
+                            <a href="messages-inbox.html" class="inner">
+                                <i data-feather="mail"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
+                    <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
+                        <div>
+                            <div class="button">
+                                <i data-feather="more-vertical"></i>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#profile-timeline-posts" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="activity"></i>
+                                        <div class="media-content">
+                                            <h3>Linha do Tempo</h3>
+                                            <small>Abrir linha do tempo.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="align-right"></i>
+                                        <div class="media-content">
+                                            <h3>Sobre</h3>
+                                            <small>Conheça mais sobre mim.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileFriends?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="heart"></i>
+                                        <div class="media-content">
+                                            <h3>Seguidores</h3>
+                                            <small>Ver todos</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="image"></i>
+                                        <div class="media-content">
+                                            <h3>Fotos</h3>
+                                            <small>Ver todas as fotos.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>                                                                            
+                </div>
+
+                <div class="profile-menu is-hidden-mobile">
+                    <div class="menu-start">
+                        <a href="#profile-timeline-posts" class="button has-min-width"><i data-feather="clock"></i>&nbsp; Postagens</a>
+
+                    </div>
+                    <div class="menu-end">
+                        <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="button has-min-width">Fotos</a>
+                    </div>
+                </div>
+
+                <div class="profile-subheader">
+                    <div class="subheader-start is-hidden-mobile">
+                        @*<span>3.4K &nbsp; 68</span>
+                        <span>Seguidores &nbsp; Fotos</span>*@
+                    </div>
+                    <div class="subheader-middle">
+                        <h2>
+                            @Model.Entity.Nome
+                            @if (Model.Entity.PerfilPublico)
+                            {
+                            <img src="~/assets/img/screens/perfilPublicoSignUp.png" alt="Perfil Público" width="20">
+                            }
+                        </h2>
+                        <span> <i class="mdi mdi-map-marker"></i>@Model.Entity.Cidade, @Model.Entity.Pais</span>
+                    </div>
+                    <div class="subheader-end is-hidden-mobile">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column">
+
+            <input type="hidden" value="@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" id="idProduto" />
+
+            <!-- About sections -->
+            <div class="profile-about side-menu">
+                <div class="left-menu">
+                    <div class="left-menu-inner">
+                        <div class="menu-item">
+                            <div class="menu-icon" id="pay-button">
+                                <i class="mdi mdi-account-heart"></i>
+                                @{
+                                    foreach (var item in Model.Entity.Valor)
+                                    {
+                                        <span>Assine por R$ @item.ValorMensal / mês</span>
+                                        <input type="hidden" value="@item.ValorMensal" id="valorProdutoMensal" />
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="menu-item is-active">
+                            <div class="menu-icon">
+                                <i class="mdi mdi-tag"></i>
+                                <span>Pacotes de Assinatura</span>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-icon">
+                                <i class="mdi mdi-account-heart"></i>
+                                @*<span>3 meses por R$ 29,90 (10%)</span>*@
+                                @{
+                                    foreach (var item in Model.Entity.Valor)
+                                    {
+                                        <span>Assine por R$ @item.ValorTrimestral (10%)</span>
+                                        <input type="hidden" value="@item.ValorTrimestral" id="valorProdutoTrimestral" />
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-icon">
+                                <i class="mdi mdi-account-heart"></i>
+                                @*<span>6 meses por R$ 59,90 (20%)</span>*@
+                                @{
+                                    foreach (var item in Model.Entity.Valor)
+                                    {
+                                        <span>Assine por R$ @item.ValorSemestral (20%)</span>
+                                        <input type="hidden" value="@item.ValorSemestral" id="valorProdutoSemestral" />
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content">
+                    <div id="overview-content" class="content-section is-active">
+                        <div class="columns">
+                            <div class="column">
+                                <div class="about-summary">
+                                    <div class="content">
+                                        <h3>Sobre mim</h3>
+                                        <p>
+                                            <i class="mdi mdi-map-marker" title="Cidade, País"></i>
+                                            @Model.Entity.Cidade, @Model.Entity.Pais
+                                        </p>
+                                        <p>
+                                            <i class="mdi mdi-phone" title="Celular"></i>
+                                            @Model.Entity.Celular
+                                        </p>
+                                        <p>
+                                            @(Model.Entity.SobreMim.IsNullOrEmpty() ? "Ainda não descrito." : Model.Entity.SobreMim)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <!-- Work block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-checkbox-marked-circle-outline"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0");
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>POSTS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Education block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-image-area"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdFotoNavigation != null).ToList().Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0");
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>FOTOS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Location block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-movie"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdVideoNavigation != null).ToList().Count())))
+                                        }
+                                        else
+                                        {
+                                            @("0");
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>VÍDEOS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                                <!-- Family block -->
+                                <div class="flex-block">
+                                    <h2 style="font-weight: 900;font-size: 24px;">
+                                        <i class="mdi mdi-thumb-up-outline"></i>&nbsp;
+                                        @if (Model.Entity.Post != null)
+                                        {
+                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.Curtida.Count() > 0).ToList().Count())));
+                                        }
+                                        else
+                                        {
+                                            @("0");
+                                        }
+                                    </h2>
+                                    <div class="flex-block-meta">
+                                        <span>CURTIDAS</span>
+                                    </div>
+                                    <div class="go-button">
+                                        <i data-feather="arrow-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+
+            <div id="profile-timeline-posts" class="box-heading">
+                <h4>Postagens</h4>
+                <div class="button-wrap">
+                    <button type="button" class="button is-active">Recentes</button>
+                </div>
+            </div>
+
+            <div class="profile-timeline">
+
+                <!-- Timeline post 1 -->
+                <!-- html/partials/pages/profile/posts/timeline-post1.html -->
+                <!-- Timeline POST #1 -->
+                <div class="profile-post">
+                    <!-- Timeline -->
+                    <div class="time is-hidden-mobile">
+                        <div class="img-container">
+                            <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
+                        </div>
+                    </div>
+                    <!-- Post -->
+                    <div class="card is-post">
+                        <!-- Main wrap -->
+                        <div class="content-wrap">
+                            <!-- Header -->
+                            <div class="card-heading">
+                                <div class="user-block">
+                                    <div class="image">
+                                        <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" data-user-popover="0" alt="">
+                                    </div>
+                                    <div class="user-info">
+                                        <a href="#">@Model.Entity.Nome</a>
+                                        <span class="time">October 17 2018, 11:03am</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Header -->
+                            <!-- Post body -->
+                            <div class="card-body">
+                                <!-- Post body text -->
+                                <div class="post-text">
+                                    <p>
+                                        Today i visited this amazing little fashion store in Church street. Everything is handmade, from skirts
+                                        to bags. Their products really have an outstanding quality. If you don't know them already, well
+                                        it's time to make your move!
+                                    <p>
+                                </div>
+                                <!-- Featured image -->
+                                <div class="post-image">
+                                    <a data-fancybox="profile-post1" data-lightbox-type="comments" data-thumb="assets/img/demo/unsplash/8.jpg" href="https://via.placeholder.com/1600x900" data-demo-href="assets/img/demo/unsplash/8.jpg">
+                                        <img src="https://via.placeholder.com/1600x900" data-demo-src="assets/img/demo/unsplash/8.jpg" alt="">
+                                    </a>
+                                    <!-- Post actions -->
+                                    <div class="like-wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                            <i class="mdi mdi-heart not-liked bouncy"></i>
+                                            <i class="mdi mdi-heart is-liked bouncy"></i>
+                                            <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="fab-wrapper is-share">
+                                        <a href="javascript:void(0);" class="small-fab share-fab modal-trigger" data-modal="share-modal">
+                                            <i data-feather="link-2"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="fab-wrapper is-comment">
+                                        <a href="javascript:void(0);" class="small-fab">
+                                            <i data-feather="message-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Post body -->
+                            <!-- Post footer -->
+                            <div class="card-footer">
+                                <div class="likers-text">
+                                    <p>
+                                        <a href="#">Milly</a>,
+                                        <a href="#">David</a>
+                                    </p>
+                                    <p>and 1 more liked this</p>
+                                </div>
+                                <!-- Post statistics -->
+                                <div class="social-count">
+                                    <div class="likes-count">
+                                        <i data-feather="heart"></i>
+                                        <span>32</span>
+                                    </div>
+                                    <div class="shares-count">
+                                        <i data-feather="link-2"></i>
+                                        <span>4</span>
+                                    </div>
+                                    <div class="comments-count">
+                                        <i data-feather="message-circle"></i>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Post footer -->
+                        </div>
+                        <!-- /Main wrap -->
+                        <!-- Comments -->
+                        <div class="comments-wrap is-hidden">
+                            <!-- Header -->
+                            <div class="comments-heading">
+                                <h4>
+                                    Comments
+                                    <small>(5)</small>
+                                </h4>
+                                <div class="close-comments">
+                                    <i data-feather="x"></i>
+                                </div>
+                            </div>
+                            <!-- Header -->
+                            <!-- Comments body -->
+                            <div class="comments-body has-slimscroll">
+
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/bobby.jpg" data-user-popover="8" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Bobby Brown</a>
+                                        <span class="time">1 hour ago</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>1</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                        <!-- Nested Comment -->
+                                        <div class="media is-comment">
+                                            <!-- User image -->
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/daniel.jpg" data-user-popover="3" alt="">
+                                                </div>
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="media-content">
+                                                <a href="#">Daniel Wellington</a>
+                                                <span class="time">3 minutes ago</span>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                                    et dolore magna aliqua.
+                                                </p>
+                                                <!-- Comment actions -->
+                                                <div class="controls">
+                                                    <div class="like-count">
+                                                        <i data-feather="thumbs-up"></i>
+                                                        <span>4</span>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Right side dropdown -->
+                                            <div class="media-right">
+                                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                    <div>
+                                                        <div class="button">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <div class="dropdown-content">
+                                                            <a class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="x"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Hide</h3>
+                                                                        <small>Hide this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Report</h3>
+                                                                        <small>Report this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Nested Comment -->
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/mike.jpg" data-user-popover="12" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Mike Lasalle</a>
+                                        <span class="time">Yesterday</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>3</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                        <!-- Nested Comment -->
+                                        <div class="media is-comment">
+                                            <!-- User image -->
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/lana.jpeg" data-user-popover="10" alt="">
+                                                </div>
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="media-content">
+                                                <a href="#">Lana Henrikssen</a>
+                                                <span class="time">3 minutes ago</span>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                                    et dolore magna aliqua.
+                                                </p>
+                                                <!-- Comment actions -->
+                                                <div class="controls">
+                                                    <div class="like-count">
+                                                        <i data-feather="thumbs-up"></i>
+                                                        <span>4</span>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Right side dropdown -->
+                                            <div class="media-right">
+                                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                    <div>
+                                                        <div class="button">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <div class="dropdown-content">
+                                                            <a class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="x"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Hide</h3>
+                                                                        <small>Hide this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="#" class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Report</h3>
+                                                                        <small>Report this comment.</small>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Nested Comment -->
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                                <!-- Comment -->
+                                <div class="media is-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/nelly.png" data-user-popover="9" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="media-content">
+                                        <a href="#">Nelly Schwartz</a>
+                                        <span class="time">2 days ago</span>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore
+                                            et dolore magna aliqua.
+                                        </p>
+                                        <!-- Comment actions -->
+                                        <div class="controls">
+                                            <div class="like-count">
+                                                <i data-feather="thumbs-up"></i>
+                                                <span>1</span>
+                                            </div>
+                                            <div class="reply">
+                                                <a href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <div class="media-right">
+                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                            <div>
+                                                <div class="button">
+                                                    <i data-feather="more-vertical"></i>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-menu" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="x"></i>
+                                                            <div class="media-content">
+                                                                <h3>Hide</h3>
+                                                                <small>Hide this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <i data-feather="flag"></i>
+                                                            <div class="media-content">
+                                                                <h3>Report</h3>
+                                                                <small>Report this comment.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Comment -->
+                            </div>
+                            <!-- Comments body -->
+                            <!-- Comments footer -->
+                            <div class="card-footer">
+                                <div class="media post-comment">
+                                    <!-- User image -->
+                                    <div class="media-left">
+                                        <p class="image is-48x48">
+                                            <img src="https://via.placeholder.com/300x300" data-demo-src="assets/img/avatars/jenna.png" data-user-popover="0" alt="">
+                                        </p>
+                                    </div>
+                                    <!-- Textarea -->
+                                    <div class="media-content">
+                                        <div class="field">
+                                            <p class="control">
+                                                <textarea class="textarea comment-textarea" rows="5" placeholder="Write a comment..."></textarea>
+                                            </p>
+                                        </div>
+                                        <!-- Additional actions -->
+                                        <div class="actions">
+                                            <div class="action is-auto">
+                                                <i data-feather="at-sign"></i>
+                                            </div>
+                                            <div class="action is-upload">
+                                                <i data-feather="camera"></i>
+                                                <input type="file">
+                                            </div>
+                                            <a class="button is-solid primary-button raised">Post Comment</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Comments footer -->
+                        </div>
+                        <!-- /Comments -->
+                    </div>
+                    <!-- /Post -->
+                </div>
+                <!-- /Timeline POST #3 -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

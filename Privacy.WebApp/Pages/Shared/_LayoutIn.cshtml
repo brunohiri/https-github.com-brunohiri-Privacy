@@ -1,0 +1,976 @@
+﻿@using Privacy.Business.Util;
+@using Privacy.WebApp.Models;
+@using System.Net;
+@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.map"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.slim.min.map"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Privacy | @ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontisto@v3.0.4/css/fontisto/fontisto-brands.min.css" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/css/bulma.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/core.css">
+
+</head>
+<body>
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+
+    <div id="main-navbar" class="navbar is-inline-flex is-transparent no-shadow is-hidden-mobile" style="z-index:10000">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <img src="../assets/img/logo/logo-menor.svg" width="112" height="28" alt="">
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <!-- Navbar Search -->
+
+                    <div class="navbar-item is-icon drop-trigger">
+                        <a class="icon-link is-primary is-friends" href="javascript:void(0);">
+                            <i data-feather="heart"></i>
+                            <span class="indicator"></span>
+                        </a>
+
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Solicitações</span>
+                                    <a href="#">Encontrar Pessoas</a>
+                                </div>
+                                <div class="nav-drop-body is-friend-requests">
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/bobby.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Bobby Brown</a>
+                                            <span>Najeel verwick is a common friend</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-plus"></i>
+                                            </button>
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/dan.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Dan Walker</a>
+                                            <span>You have 4 common friends</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-plus"></i>
+                                            </button>
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/nelly.png" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span>You are now friends with <a href="#">Nelly Schwartz</a>. Check her <a href="#">profile</a>.</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="tag"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/milly.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Milly Augustine</a>
+                                            <span>You have 8 common friends</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-plus"></i>
+                                            </button>
+                                            <button class="button icon-button is-solid grey-button raised">
+                                                <i data-feather="user-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/elise.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span>You are now friends with <a href="#">Elise Walker</a>. Check her <a href="#">profile</a>.</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="tag"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Friend request -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/edward.jpeg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span>You are now friends with <a href="#">Edward Mayers</a>. Check his <a href="#">profile</a>.</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="tag"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav-drop-footer">
+                                    <a href="#">Limpar tudo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-item is-icon drop-trigger">
+                        <a class="icon-link" href="javascript:void(0);">
+                            <i data-feather="bell"></i>
+                            <span class="indicator"></span>
+                        </a>
+
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Notificações</span>
+                                    <a href="#">Ver Todas</a>
+                                </div>
+                                <div class="nav-drop-body is-notifications">
+                                    <!-- Notification -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/david.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span><a href="#">David Kim</a> commented on <a href="#">your post</a>.</span>
+                                            <span class="time">30 minutes ago</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Notification -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/daniel.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span><a href="#">Daniel Wellington</a> liked your <a href="#">profile.</a></span>
+                                            <span class="time">43 minutes ago</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="heart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Notification -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/stella.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span><a href="#">Stella Bergmann</a> shared a <a href="#">New video</a> on your wall.</span>
+                                            <span class="time">Yesterday</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="youtube"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Notification -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/elise.jpg" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span><a href="#">Elise Walker</a> shared an <a href="#">Image</a> with you an 2 other people.</span>
+                                            <span class="time">2 days ago</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="image"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav-drop-footer">
+                                    <a href="#">Limpar Tudo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-item is-icon drop-trigger">
+                        <a class="icon-link is-active" href="javascript:void(0);">
+                            <i data-feather="mail"></i>
+                            <span class="indicator"></span>
+                        </a>
+
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Mensagens</span>
+                                    <a href="messages-inbox.html">Entrada</a>
+                                </div>
+                                <div class="nav-drop-body is-friend-requests">
+                                    <!-- Message -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/nelly.png"
+                                                     data-user-popover="9" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Nelly Schwartz</a>
+                                            <span>I think we should meet near the Starbucks so we can get...</span>
+                                            <span class="time">Yesterday</span>
+                                        </div>
+                                        <div class="media-right is-centered">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Message -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/edward.jpeg"
+                                                     data-user-popover="5" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Edward Mayers</a>
+                                            <span>That was a real pleasure seeing you last time we really should...</span>
+                                            <span class="time">last week</span>
+                                        </div>
+                                        <div class="media-right is-centered">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Message -->
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/dan.jpg"
+                                                     data-user-popover="1" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">Dan Walker</a>
+                                            <span>Hey there, would it be possible to borrow your bicycle, i really need...</span>
+                                            <span class="time">Jun 03 2018</span>
+                                        </div>
+                                        <div class="media-right is-centered">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav-drop-footer">
+                                    <a href="#">Limpar Tudo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+
+                    <div class="navbar-item">
+                        <div id="global-search" class="control">
+                            <form method="post" asp-page="Search" id="formBuscar">
+                                @Html.AntiForgeryToken()
+                                <input id="tipue_drop_input" name="TextoPesquisa" class="input is-rounded" type="text" placeholder="Pesquisar..." required>
+                                <span id="clear-search" class="reset-search">
+                                    <i data-feather="x"></i>
+                                </span>
+                                <span class="search-icon">
+                                    <i data-feather="search"></i>
+                                </span>
+                            </form>
+
+                            <div id="tipue_drop_content"></div>
+                        </div>
+
+                    </div>
+                    <div class="navbar-item is-cart" style="display:none;">
+                        <div class="cart-button">
+                            <i data-feather="shopping-cart"></i>
+                            <div class="cart-count">
+                                <span>1</span>
+                            </div>
+                        </div>
+
+                        <!-- Cart dropdown -->
+                        <div class="shopping-cart">
+                            <div class="cart-inner">
+
+                                <!--Loader-->
+                                <div class="navbar-cart-loader is-active">
+                                    <div class="loader is-loading"></div>
+                                </div>
+
+                                <div class="shopping-cart-header">
+                                    <a href="/ecommerce-cart.html" class="cart-link">Ver Carrinho</a>
+                                    <div class="shopping-cart-total">
+                                        <span class="lighter-text">Total:</span>
+                                        <span class="main-color-text">R$ 53,00</span>
+                                    </div>
+                                </div>
+                                <!--end shopping-cart-header -->
+
+                                <ul class="shopping-cart-items">
+                                    <li class="cart-row">
+                                        <img src="../FotoPerfil/perfilNath.jpg" alt="" />
+                                        <span class="item-meta">
+                                            <span class="item-name">Posts Nathalie Andreani</span>
+                                            <span class="meta-info">
+                                                <span class="item-price">R$ 54,00</span>
+                                                <span class="item-quantity"></span>
+                                            </span>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="button primary-button is-raised">Finalizar Pedido</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
+                        <div class="user-image">
+                            <img src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" data-demo-src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" alt="">
+                            <span class="indicator"></span>
+                        </div>
+
+                        <div class="nav-drop is-account-dropdown">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span class="username">@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").Nome)</span>
+                                    <a href="/MyProfile?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").IdUsuario.ToString())))">Perfil</a>
+                                </div>
+                                <div class="nav-drop-body account-items">
+                                    <a id="profile-link" href="/MyProfile?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").IdUsuario.ToString())))" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" data-demo-src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").Nome)</h3>
+                                                <small>Conta Principal</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="account-divider">
+                                    <a class="account-item" href="/MyProfile?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").IdUsuario.ToString())))">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="user"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Meu Perfil</h3>
+                                                <small>Acessar configurações do Meu Perfil.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="account-divider">
+                                    <a href="/AddCreditCard" class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="shopping-cart"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Meus Cartões</h3>
+                                                <small>Acessar Meus Cartões de Crédito.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="/options-settings.html" class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="tag"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Adicionar Banco</h3>
+                                                <small>Adicionar dados bancários.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="account-divider">
+                                    <a href="/options-settings.html" class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="settings"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Configurações</h3>
+                                                <small>Acessar configurações do aplicativo.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="life-buoy"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Ajuda</h3>
+                                                <small>Fale com nosso suporte.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a class="account-item" href="/Login">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="power"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Sair</h3>
+                                                <small>Sair da conta.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-item is-plus-menu is-hidden">
+                        <a id="plus-menu" class="button action-button is-solid primary-button raised">
+                            <i data-feather="plus"></i>
+                        </a>
+                        <div class="plus-drop">
+                            <div class="drop-content">
+                                <a>
+                                    <i data-feather="book"></i>
+                                    <div class="meta">
+                                        <span>Guides</span>
+                                        <span>Learn everything fast</span>
+                                    </div>
+                                </a>
+                                <a>
+                                    <i data-feather="help-circle"></i>
+                                    <div class="meta">
+                                        <span>FAQ</span>
+                                        <span>Most asked questions</span>
+                                    </div>
+                                </a>
+                                <a>
+                                    <i data-feather="life-buoy"></i>
+                                    <div class="meta">
+                                        <span>Assistance</span>
+                                        <span>Get in touch with support</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>        <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation" style="z-index:10000">
+        <!-- Brand -->
+                      <div class="navbar-brand">
+                          <a class="navbar-item" href="/">
+                              <img src="../assets/img/logo/logo-menor.svg" alt="">
+                          </a>
+
+                          <div class="navbar-item is-icon drop-trigger">
+                              <a class="icon-link is-primary is-friends" href="javascript:void(0);">
+                                  <i data-feather="heart"></i>
+                                  <span class="indicator"></span>
+                              </a>
+
+                              <div class="nav-drop">
+                                  <div class="inner">
+                                      <div class="nav-drop-header">
+                                          <span>Friend requests</span>
+                                          <a href="#">Find Friends</a>
+                                      </div>
+                                      <div class="nav-drop-body is-friend-requests">
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/bobby.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Bobby Brown</a>
+                                                  <span>Najeel verwick is a common friend</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-plus"></i>
+                                                  </button>
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-minus"></i>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/dan.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Dan Walker</a>
+                                                  <span>You have 4 common friends</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-plus"></i>
+                                                  </button>
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-minus"></i>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/nelly.png" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span>You are now friends with <a href="#">Nelly Schwartz</a>. Check her <a href="#">profile</a>.</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="tag"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/milly.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Milly Augustine</a>
+                                                  <span>You have 8 common friends</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-plus"></i>
+                                                  </button>
+                                                  <button class="button icon-button is-solid grey-button raised">
+                                                      <i data-feather="user-minus"></i>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/elise.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span>You are now friends with <a href="#">Elise Walker</a>. Check her <a href="#">profile</a>.</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="tag"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Friend request -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/edward.jpeg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span>You are now friends with <a href="#">Edward Mayers</a>. Check his <a href="#">profile</a>.</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="tag"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="nav-drop-footer">
+                                          <a href="#">Clear All</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="navbar-item is-icon drop-trigger">
+                              <a class="icon-link" href="javascript:void(0);">
+                                  <i data-feather="bell"></i>
+                                  <span class="indicator"></span>
+                              </a>
+
+                              <div class="nav-drop">
+                                  <div class="inner">
+                                      <div class="nav-drop-header">
+                                          <span>Notifications</span>
+                                          <a href="#">View All</a>
+                                      </div>
+                                      <div class="nav-drop-body is-notifications">
+                                          <!-- Notification -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/david.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span><a href="#">David Kim</a> commented on <a href="#">your post</a>.</span>
+                                                  <span class="time">30 minutes ago</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="message-square"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Notification -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/daniel.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span><a href="#">Daniel Wellington</a> liked your <a href="#">profile.</a></span>
+                                                  <span class="time">43 minutes ago</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="heart"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Notification -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/stella.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span><a href="#">Stella Bergmann</a> shared a <a href="#">New video</a> on your wall.</span>
+                                                  <span class="time">Yesterday</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="youtube"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Notification -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/300x300" data-demo-src="../assets/img/avatars/elise.jpg" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <span><a href="#">Elise Walker</a> shared an <a href="#">Image</a> with you an 2 other people.</span>
+                                                  <span class="time">2 days ago</span>
+                                              </div>
+                                              <div class="media-right">
+                                                  <div class="added-icon">
+                                                      <i data-feather="image"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="nav-drop-footer">
+                                          <a href="#">Clear All</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="navbar-item is-icon drop-trigger">
+                              <a class="icon-link is-active" href="javascript:void(0);">
+                                  <i data-feather="mail"></i>
+                                  <span class="indicator"></span>
+                              </a>
+
+                              <div class="nav-drop">
+                                  <div class="inner">
+                                      <div class="nav-drop-header">
+                                          <span>Messages</span>
+                                          <a href="messages-inbox.html">Inbox</a>
+                                      </div>
+                                      <div class="nav-drop-body is-friend-requests">
+                                          <!-- Message -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/nelly.png"
+                                                           data-user-popover="9" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Nelly Schwartz</a>
+                                                  <span>I think we should meet near the Starbucks so we can get...</span>
+                                                  <span class="time">Yesterday</span>
+                                              </div>
+                                              <div class="media-right is-centered">
+                                                  <div class="added-icon">
+                                                      <i data-feather="message-square"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Message -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/edward.jpeg"
+                                                           data-user-popover="5" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Edward Mayers</a>
+                                                  <span>That was a real pleasure seeing you last time we really should...</span>
+                                                  <span class="time">last week</span>
+                                              </div>
+                                              <div class="media-right is-centered">
+                                                  <div class="added-icon">
+                                                      <i data-feather="message-square"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- Message -->
+                                          <div class="media">
+                                              <figure class="media-left">
+                                                  <p class="image">
+                                                      <img src="https://via.placeholder.com/150x150" data-demo-src="../assets/img/avatars/dan.jpg"
+                                                           data-user-popover="1" alt="">
+                                                  </p>
+                                              </figure>
+                                              <div class="media-content">
+                                                  <a href="#">Dan Walker</a>
+                                                  <span>Hey there, would it be possible to borrow your bicycle, i really need...</span>
+                                                  <span class="time">Jun 03 2018</span>
+                                              </div>
+                                              <div class="media-right is-centered">
+                                                  <div class="added-icon">
+                                                      <i data-feather="message-square"></i>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="nav-drop-footer">
+                                          <a href="#">Clear All</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="navbar-item is-icon open-chat">
+                              <a class="icon-link is-primary" href="javascript:void(0);">
+                                  <i data-feather="message-square"></i>
+                                  <span class="indicator"></span>
+                              </a>
+                          </div>
+
+                          <div class="navbar-item is-icon drop-trigger">
+                              <a class="icon-link" href="javascript:void(0);">
+                                  <i data-feather="search"></i>
+                                  <span class="indicator"></span>
+                              </a>
+
+                              <div class="nav-drop">
+                                  <div class="inner">
+                                      <div id="global-search" class="control">
+                                          <form method="post" asp-page="Search" id="formBuscar">
+                                              @Html.AntiForgeryToken()
+                                              <input id="tipue_drop_input2" name="TextoPesquisa" class="input is-rounded" type="text" placeholder="Pesquisar..." required style="width:100%;">
+                                              <span id="clear-search" class="reset-search">
+                                                  <i data-feather="x"></i>
+                                              </span>
+                                              <span class="search-icon">
+                                                  <i data-feather="search"></i>
+                                              </span>
+                                          </form>
+
+                                          <div id="tipue_drop_content"></div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- Mobile menu toggler icon -->
+                          <div class="navbar-burger">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                          </div>
+                      </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <div class="navbar-link">
+                    <img src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" data-demo-src="@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").FotoPerfil)" alt="">
+                    <span class="is-heading">@(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").Nome)</span>
+                </div>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <a href="/MyProfile?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Context.Session.GetObjectFromJson<Privacy.Data.Entities.Usuario>("USUARIO").IdUsuario.ToString())))" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i>Meu Perfil</span>
+                    </a>
+                    <a href="/AddCreditCard" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="shopping-cart"></i>Meus Cartões</span>
+                        <span class="menu-badge">1</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="tag"></i>Adicionar Banco</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="settings"></i>Configurações</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="life-buoy"></i>Ajuda</span>
+                    </a>
+                    <a href="/Login" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="hexagon"></i>Sair</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- More -->
+            <div class="navbar-item has-dropdown">
+                <a class="navbar-link">
+                    <i data-feather="life-buoy"></i>
+                    <span class="is-heading">Assistência</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item">Ajuda</a>
+                    <a href="#" class="navbar-item">Suporte</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="view-wrapper">
+        @RenderBody()
+    </div>
+
+    <!-- Google places Lib -->
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyAGLO_M5VT7BsVdjMjciKoH1fFJWWdhDPU&libraries=places"></script>
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="../assets/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+    <!-- Core js -->
+    <script src="../assets/data/tipuedrop_content.js"></script>
+    <script src="../assets/js/global.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page and UI related js -->
+    <script src="../assets/js/feed.js"></script>
+    <script src="../assets/js/stories.js"></script>
+    <script src="../assets/js/chat.js"></script>
+    <script src="../assets/js/inbox.js"></script>
+    <script src="../assets/js/profile.js"></script>
+    <script src="../assets/js/friends.js"></script>
+    <script src="../assets/js/events.js"></script>
+    <script src="../assets/js/explorer.js"></script>
+    <script src="../assets/js/news.js"></script>
+    <script src="../assets/js/questions.js"></script>
+    <script src="../assets/js/videos.js"></script>
+    <script src="../assets/js/shop.js"></script>
+    <script src="../assets/js/settings.js"></script>
+
+    <!-- Components js -->
+    <script src="../assets/js/widgets.js"></script>
+    <script src="../assets/js/autocompletes.js"></script>
+    <script src="../assets/js/modal-uploader.js"></script>
+    <script src="../assets/js/popovers-users.js"></script>
+    <script src="../assets/js/popovers-pages.js"></script>
+    <script src="../assets/js/go-live.js"></script>
+    <script src="../assets/js/lightbox.js"></script>
+    <script src="../assets/js/touch.js"></script>
+    <script src="../assets/js/tour.js"></script>
+
+    <script src="https://assets.pagar.me/pagarme-js/4.5/pagarme.min.js"></script>
+    <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

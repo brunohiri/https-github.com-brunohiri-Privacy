@@ -1,0 +1,34 @@
+﻿@page
+@model Privacy.WebApp.Pages.SearchModel
+@{
+    ViewData["Title"] = "Pesquisar";
+    Layout = "~/Pages/Shared/_LayoutIn.cshtml";
+}
+
+@using Privacy.Business.Util;
+@using System.Net;
+@using System.IO;
+<!-- Container -->
+<div class="container">
+    <div class="columns padding-top-50">
+        <!-- Profile page main wrapper -->
+        <div class="column is-12">
+            <div class="card">
+                <div class="card-body no-padding" id="divListPesquisa">
+                    <div class="add-friend-block transition-block">
+                        <div class="page-meta">
+                            <span>Sem sugestões</span>
+                            <span></span>
+                        </div>
+                        <div class="add-friend add-transition">
+                            <i data-feather="user-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Right side column -->
+            </div>
+        </div>
+
+    </div>
+</div>
+

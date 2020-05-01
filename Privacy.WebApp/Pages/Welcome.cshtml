@@ -1,0 +1,66 @@
+﻿@page
+@model Privacy.WebApp.WelcomeModel
+@{
+    ViewData["Title"] = "Bem vindo";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@using Privacy.Business.Util;
+@using System.Net;
+
+<!-- Container -->
+<div class="container is-custom">
+    <div class="signup-wrapper">
+
+        <div class="outer-panel">
+            <div class="outer-panel-inner">
+                <div id="signup-panel-5" class="process-panel-wrap is-active">
+                    <div class="form-panel">
+                        <a href="/Login"><img class="success-image" src="~/assets/img/telaLogin/LogoLaranja.png" alt=""></a>
+                        <div class="text-privacidade">
+                            <br />
+                            <h2 class="title-privacidade">Olá, seja bem vinda.</h2>
+                            <br />
+                            <p>Estamos extremamente contentes de finalmente ter você conosco, agora você faz parte de uma grande família de criadores e consumidores de conteúdo online.</p>
+                            <br />
+                            <p>Dentro da Privacy você vai encontrar um ambiente seguro, amigável e divertido em que você pode ser você mesmo.</p>
+                            <br />
+                            <p>A nossa missão é criar um novo life style para os nossos parceiros, no qual os mesmos possam ser livres, felizes e viver as melhores coisas que a vida tem para oferecer.</p>
+                            <br />
+                            <p>Conte conosco da mesma forma que contamos com você.</p>
+                            <br />
+                            <p>De momento estamos trabalhando para atualizar a nossa plataforma. Em breve estará no ar e pronta para ser desfrutada.</p>
+                            <br />
+                            <p>Prepara-se para lucrar vendendo conteúdo exclusivo para os seus seguidores.</p>
+                            <br />
+                            <h2 class="title-privacidade">Muito obrigado!</h2>
+                            <br />
+                            <p>CEO,</p>
+                            <br />
+                            <div class="control">
+                                <img src="/assets/img/assinaturafabio.png" alt="" style="width:200px;" />
+                            </div>
+                            <br />
+                            <div class="control" style="color:gray !important;text-align:center;">
+                                <span>&copy;@DateTime.Now.Year <a href="/Login" style="color:gray !important;">Privacy</a></span>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="#" style="color:gray !important;">Blog</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="https://twitter.com/sejaprivacy/" target="_blank" style="color:gray !important;">Twitter</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="https://www.instagram.com/privacy.app/" target="_blank" style="color:gray !important;">Instagram</a>&nbsp;
+                            </div>
+                            <br />
+                            <div class="control" style="color:gray !important;text-align:center;">
+                                <a href="#" style="color:gray !important;">FAQs</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="#" style="color:gray !important;">Termo</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="/Privacy" style="color:gray !important;">Privacidade</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="mailto:contato@privacy.com.br,atendimento@privacy.com.br" style="color:gray !important;">Contato</a>&nbsp;<span style="font-size:12px;">&#9679;</span>
+                                <a href="/HowItWorks" style="color:gray !important;">Como funciona</a>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

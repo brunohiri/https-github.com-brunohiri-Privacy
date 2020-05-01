@@ -1,0 +1,251 @@
+﻿@page
+@model Privacy.WebApp.Pages.ProfilePhotosModel
+@{
+    ViewData["Title"] = "Fotos";
+    Layout = "~/Pages/Shared/_LayoutIn.cshtml";
+}
+
+@using Privacy.Business.Util;
+@using System.Net;
+@using System.IO;
+<!-- Container -->
+<div class="container is-custom">
+
+    <!-- Profile page main wrapper -->
+    <div id="profile-about" class="view-wrap is-headless">
+        <div class="columns is-multiline no-margin">
+            <!-- Left side column -->
+            <div class="column is-paddingless">
+                <!-- Timeline Header -->
+                <div class="cover-bg">
+                    <img class="cover-image" src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa : "/FotoCapa/default.jpg")" data-demo-src="../@(Model.Entity.FotoCapa != null ? Model.Entity.FotoCapa : "/FotoCapa/default.jpg")" alt="">
+                    <div class="avatar">
+                        <img id="user-avatar" class="avatar-image" src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
+                        <div class="pop-button is-far-left has-tooltip modal-trigger" data-modal="change-profile-pic-modal" data-placement="right" data-title="Alterar foto do perfil">
+                            <a class="inner">
+                                <i data-feather="camera"></i>
+                            </a>
+                        </div>
+                        <div id="follow-pop" class="pop-button pop-shift is-left has-tooltip" data-placement="top" data-title="Sobre mim">
+                            <a class="inner">
+                                <i class="inactive-icon" data-feather="bell"></i>
+                                <i class="active-icon" data-feather="bell-off"></i>
+                            </a>
+                        </div>
+                        <div id="invite-pop" class="pop-button pop-shift is-center has-tooltip" data-placement="top" data-title="Relacionamento">
+                            <a href="#" class="inner">
+                                <i class="inactive-icon" data-feather="plus"></i>
+                                <i class="active-icon" data-feather="minus"></i>
+                            </a>
+                        </div>
+                        <div id="chat-pop" class="pop-button is-right has-tooltip" data-placement="top" data-title="Chat">
+                            <a class="inner">
+                                <i data-feather="message-circle"></i>
+                            </a>
+                        </div>
+                        <div class="pop-button is-far-right has-tooltip" data-placement="right" data-title="Enviar mensagem">
+                            <a href="messages-inbox.html" class="inner">
+                                <i data-feather="mail"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
+                    <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
+                        <div>
+                            <div class="button">
+                                <i data-feather="more-vertical"></i>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="activity"></i>
+                                        <div class="media-content">
+                                            <h3>Linha do Tempo</h3>
+                                            <small>Abrir linha do tempo.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="align-right"></i>
+                                        <div class="media-content">
+                                            <h3>Sobre</h3>
+                                            <small>Conheça mais sobre mim.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfileFriends?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="heart"></i>
+                                        <div class="media-content">
+                                            <h3>Seguidores</h3>
+                                            <small>Ver todos</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="image"></i>
+                                        <div class="media-content">
+                                            <h3>Fotos</h3>
+                                            <small>Ver todas as fotos.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-menu is-hidden-mobile">
+                    <div class="menu-start">
+                        <a href="/ProfileAbout?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))#profile-timeline-posts" class="button has-min-width"><i data-feather="clock"></i>&nbsp; Postagens</a>
+
+                    </div>
+                    <div class="menu-end">
+                        <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="button has-min-width">Fotos</a>
+                    </div>
+                </div>
+
+                <div class="profile-subheader">
+                    <div class="subheader-start is-hidden-mobile">
+                        @*<span>3.4K &nbsp; 68</span>
+                            <span>Seguidores &nbsp; Fotos</span>*@
+                    </div>
+                    <div class="subheader-middle">
+                        <h2>
+                            @Model.Entity.Nome
+                            @if (Model.Entity.PerfilPublico)
+                            {
+                                <img src="~/assets/img/screens/perfilPublicoSignUp.png" alt="Perfil Público" width="20">
+                            }
+                        </h2>
+                        <span>@Model.Entity.Cidade, @Model.Entity.Pais</span>
+                    </div>
+                    <div class="subheader-end is-hidden-mobile">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="box-heading">
+                    <div class="dropdown photos-dropdown is-spaced is-neutral dropdown-trigger">
+                        <div>
+                            <div class="button">
+                                <span>Todas as Fotos</span>
+                                <i data-feather="chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="tag"></i>
+                                        <div class="media-content">
+                                            <h3>Tagged Photos</h3>
+                                            <small>Photos whith this user tagged.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="clock"></i>
+                                        <div class="media-content">
+                                            <h3>Recent</h3>
+                                            <small>View most recent photos.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="heart"></i>
+                                        <div class="media-content">
+                                            <h3>Popular</h3>
+                                            <small>View popular photos.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="media">
+                                        <i data-feather="book-open"></i>
+                                        <div class="media-content">
+                                            <h3>Albums</h3>
+                                            <small>See all albums.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item modal-trigger" data-modal="albums-modal">
+                                    <div class="media">
+                                        <i data-feather="plus"></i>
+                                        <div class="media-content">
+                                            <h3>Add Photos</h3>
+                                            <small>Upload pictures.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-wrap">
+                        <button type="button" class="button is-active">Recentes</button>
+                        <button type="button" class="button">Álbuns</button>
+                    </div>
+                </div>
+
+                <div class="image-grid-wrap">
+                    <div class="image-grid">
+                        @{
+                            if (Model.ListAlbum != null && Model.ListAlbum.Count() > 0)
+                            {
+                                foreach (var ItemAlbum in Model.ListAlbum)
+                                {
+                                    int i = 0;
+                                    foreach (var ItemFoto in ItemAlbum.Foto)
+                                    {
+                                        if (i == 0 || i == 2)
+                                        {
+                                            <!--Grid Row-->
+                                            @Html.Raw("<div class=\"image-row\">")
+                                        }
+
+                                        <!--Photo-->
+                                        <div class="flex-1 has-background-image" style="max-height:300px;" data-background="@(System.IO.Path.Combine(ItemFoto.Caminho, ItemFoto.NomeArquivo).Replace("\\", "/"))" data-demo-background="@(System.IO.Path.Combine(ItemFoto.Caminho, ItemFoto.NomeArquivo).Replace("\\", "/"))">
+                                            <div class="overlay"></div>
+                                            <div class="image-owner">
+                                                <img class="avatar" src="@(System.IO.Path.Combine(ItemFoto.Caminho, ItemFoto.NomeArquivo))" data-demo-src="@(System.IO.Path.Combine(ItemFoto.Caminho, ItemFoto.NomeArquivo))" alt="">
+                                                <div class="name">@ItemFoto.Descricao</div>
+                                            </div>
+                                            <div class="photo-time">@ItemFoto.DataCadastro.ToString("dd \"de\" MMM \"de\" yyyy \"às\" HH:mm:ss")</div>
+                                        </div>
+                                        i++;
+
+                                        @if (i == 2)
+                                        {
+                                            @Html.Raw("</div>")
+                                            i = 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+
+                    <!-- Load more photos -->
+                    <div class=" load-more-wrap has-text-centered">
+                        <a href="#" class="load-more-button">Carregar Mais</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
