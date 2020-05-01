@@ -6,7 +6,8 @@
 }
 @using Privacy.Business.Util;
 @using System.Net;
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel">
+<link href="~/assets/css/perfil.css" rel="stylesheet" />
 <script src="~/assets/js/ModalPagamento.js"></script>
 <!-- Container -->
 <div class="container is-custom">
@@ -50,7 +51,7 @@
                         </div>
                     </div>
                     <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
-                    <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
+                    <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop" style="z-index:60">
                         <div>
                             <div class="button">
                                 <i data-feather="more-vertical"></i>
@@ -85,7 +86,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
+                                @*<a href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))" class="dropdown-item">
                                     <div class="media">
                                         <i data-feather="image"></i>
                                         <div class="media-content">
@@ -93,10 +94,83 @@
                                             <small>Ver todas as fotos.</small>
                                         </div>
                                     </div>
-                                </a>
+                                </a>*@
                             </div>
                         </div>
-                    </div>                                                                            
+                    </div>
+                    <div class="cover-overlay" id="formatacaoCounts">
+                        <div id="countPostagem" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Count())))
+                                    <p>Posts</p>
+                                </a>
+
+
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Posts</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countFotos" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {                                                              
+                                <a class="counts" href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdFotoNavigation != null).ToList().Count())))
+                                    <p>Fotos</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Fotos</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countVideos" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdVideoNavigation != null).ToList().Count())))
+                                    <p>Vídeos</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Vídeos</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countCurtidas" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.Curtida.Count() > 0).ToList().Count())))
+                                    <p>Curtidas</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Curtidas</p>
+                                </a>
+                            }
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="profile-menu is-hidden-mobile">
@@ -112,14 +186,14 @@
                 <div class="profile-subheader">
                     <div class="subheader-start is-hidden-mobile">
                         @*<span>3.4K &nbsp; 68</span>
-                        <span>Seguidores &nbsp; Fotos</span>*@
+                            <span>Seguidores &nbsp; Fotos</span>*@
                     </div>
                     <div class="subheader-middle">
                         <h2>
                             @Model.Entity.Nome
                             @if (Model.Entity.PerfilPublico)
                             {
-                            <img src="~/assets/img/screens/perfilPublicoSignUp.png" alt="Perfil Público" width="20">
+                                <img src="~/assets/img/screens/perfilPublicoSignUp.png" alt="Perfil Público" width="20">
                             }
                         </h2>
                         <span> <i class="mdi mdi-map-marker"></i>@Model.Entity.Cidade, @Model.Entity.Pais</span>
@@ -141,45 +215,45 @@
                 <div class="left-menu">
                     <div class="left-menu-inner">
                         <div class="menu-item">
-                            <div class="menu-icon" id="pay-button">
+                            <div class="menu-icon pay-button" >
                                 <i class="mdi mdi-account-heart"></i>
                                 @{
                                     foreach (var item in Model.Entity.Valor)
                                     {
-                                        <span>Assine por R$ @item.ValorMensal / mês</span>
-                                        <input type="hidden" value="@item.ValorMensal" id="valorProdutoMensal" />
+                                        <span id="valorProdutoMensal">Assine por R$ @item.ValorMensal / mês</span>
+                                        @*<input type="hidden" value="@item.ValorMensal" id="valorProdutoMensal" />*@
                                     }
                                 }
                             </div>
                         </div>
-                        <div class="menu-item is-active">
+                        @*<div class="menu-item is-active">
                             <div class="menu-icon">
                                 <i class="mdi mdi-tag"></i>
                                 <span>Pacotes de Assinatura</span>
                             </div>
-                        </div>
-                        <div class="menu-item">
+                        </div>*@
+                        <div class="menu-item pay-button">
                             <div class="menu-icon">
                                 <i class="mdi mdi-account-heart"></i>
                                 @*<span>3 meses por R$ 29,90 (10%)</span>*@
                                 @{
                                     foreach (var item in Model.Entity.Valor)
                                     {
-                                        <span>Assine por R$ @item.ValorTrimestral (10%)</span>
-                                        <input type="hidden" value="@item.ValorTrimestral" id="valorProdutoTrimestral" />
+                                        <span id="valorProdutoTrimestral">Assine por R$ @item.ValorTrimestral (10%)</span>
+                                        @*<input type="hidden" value="@item.ValorTrimestral" id="valorProdutoTrimestral" />*@
                                     }
                                 }
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item pay-button">
                             <div class="menu-icon">
                                 <i class="mdi mdi-account-heart"></i>
                                 @*<span>6 meses por R$ 59,90 (20%)</span>*@
                                 @{
                                     foreach (var item in Model.Entity.Valor)
                                     {
-                                        <span>Assine por R$ @item.ValorSemestral (20%)</span>
-                                        <input type="hidden" value="@item.ValorSemestral" id="valorProdutoSemestral" />
+                                        <span id="valorProdutoSemestral">Assine por R$ @item.ValorSemestral (20%)</span>
+                                        @*<input type="hidden" value="@item.ValorSemestral" id="valorProdutoSemestral" />*@
                                     }
                                 }
                             </div>
@@ -207,8 +281,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="column">
-                                <!-- Work block -->
+                            @*<div class="column">
+                                 Work block 
                                 <div class="flex-block">
                                     <h2 style="font-weight: 900;font-size: 24px;">
                                         <i class="mdi mdi-checkbox-marked-circle-outline"></i>&nbsp;
@@ -228,7 +302,7 @@
                                         <i data-feather="arrow-right"></i>
                                     </div>
                                 </div>
-                                <!-- Education block -->
+                                 Education block 
                                 <div class="flex-block">
                                     <h2 style="font-weight: 900;font-size: 24px;">
                                         <i class="mdi mdi-image-area"></i>&nbsp;
@@ -248,7 +322,7 @@
                                         <i data-feather="arrow-right"></i>
                                     </div>
                                 </div>
-                                <!-- Location block -->
+                                 Location block 
                                 <div class="flex-block">
                                     <h2 style="font-weight: 900;font-size: 24px;">
                                         <i class="mdi mdi-movie"></i>&nbsp;
@@ -268,7 +342,7 @@
                                         <i data-feather="arrow-right"></i>
                                     </div>
                                 </div>
-                                <!-- Family block -->
+                                 Family block 
                                 <div class="flex-block">
                                     <h2 style="font-weight: 900;font-size: 24px;">
                                         <i class="mdi mdi-thumb-up-outline"></i>&nbsp;
@@ -288,7 +362,7 @@
                                         <i data-feather="arrow-right"></i>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
 
@@ -312,11 +386,11 @@
                 <!-- Timeline POST #1 -->
                 <div class="profile-post">
                     <!-- Timeline -->
-                    <div class="time is-hidden-mobile">
+                    @*<div class="time is-hidden-mobile">
                         <div class="img-container">
                             <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
                         </div>
-                    </div>
+                    </div>*@
                     <!-- Post -->
                     <div class="card is-post">
                         <!-- Main wrap -->

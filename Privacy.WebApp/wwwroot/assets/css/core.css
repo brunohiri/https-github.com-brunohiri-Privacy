@@ -19780,7 +19780,7 @@ pre {
     .profile-about .right-content {
         padding-left: 30px;
         width: calc(100% - 260px);
-        min-height: 420px
+        min-height: 210px
     }
         /* line 979, src/assets/scss/pages/_app-profile.scss */
 

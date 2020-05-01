@@ -326,7 +326,7 @@ $(document).ready(function () {
             var targetContent = $(this).attr('data-content');
             $('.left-menu .menu-item').removeClass('is-active');
             $(this).addClass('is-active');
-            $('.content-section').removeClass('is-active');
+            //$('.content-section').removeClass('is-active');
             $('#' + targetContent).addClass('is-active');
 
             if (targetContent == 'education-content' || targetContent == 'job-content') {

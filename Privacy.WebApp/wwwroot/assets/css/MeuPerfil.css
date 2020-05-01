@@ -1,0 +1,99 @@
+﻿/*#container {
+    position: relative;
+    padding: 10px;
+    width: 100%;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+}*/
+
+.classeValores {
+    padding: 10px;
+    width: 100%;
+    /*background-color: white;*/
+    /*border-radius: 6px;
+    border: 1px solid #e8e8e8;*/
+}
+
+.valorProduto {
+    margin-left: 15px;
+}
+
+#formatacaoCounts {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    float: left;
+    padding: 30px;
+    text-align: center;
+}
+
+
+
+.counts {
+    color: white;
+    font-family: 'Abel';
+    font-size: 18px;
+}
+
+    .counts:hover {
+        color: #f6f6f6;
+    }
+
+@media (min-width: 500px) {
+    #countPostagem {
+        width: 25%;
+    }
+
+    #countFotos {
+        width: 25%;
+    }
+
+    #countVideos {
+        width: 25%;
+    }
+
+    #countCurtidas {
+        width: 25%;
+    }
+}
+
+.underline {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+}
+
+    .underline:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: 190px;
+        left: 0;
+        background-color: #fff;
+        visibility: hidden;
+        -webkit-transform: scaleX(0);
+        transform: scaleX(0);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .underline:hover:before {
+        visibility: visible;
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1);
+    }
+
+@media (max-width: 767px) { /* line 156, src/assets/scss/layout/_layout-pageloader.scss */
+
+    .valorProduto {
+        max-width: 100%
+    }
+
+    #btnSalvarValores {
+        margin-left: 0;
+        display: block;
+        float: left;
+    }
+}

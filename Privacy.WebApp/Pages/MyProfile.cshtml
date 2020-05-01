@@ -6,6 +6,9 @@
 }
 @using Privacy.Business.Util;
 @using System.Net;
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel">
+
+<link href="~/assets/css/perfil.css" rel="stylesheet" />
 <script src="~/assets/js/Perfil.js"></script>
 <!-- Container -->
 <div class="container is-custom">
@@ -51,10 +54,83 @@
                             </a>
                         </div>
                     </div>
-                    <div class="cover-overlay"></div>
+                    <div class="cover-overlay" id="formatacaoCounts">
+                        <div id="countPostagem" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Count())))
+                                    <p>Posts</p>
+                                </a>
+
+
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Posts</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countFotos" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+                                <a class="counts" href="/ProfilePhotos?Id=@(WebUtility.UrlDecode(Criptography.Encrypt(Model.Entity.IdUsuario.ToString())))">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdFotoNavigation != null).ToList().Count())))
+                                    <p>Fotos</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Fotos</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countVideos" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdVideoNavigation != null).ToList().Count())))
+                                    <p>Vídeos</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Vídeos</p>
+                                </a>
+                            }
+                        </div>
+
+                        <div id="countCurtidas" class="underline">
+                            @if (Model.Entity.Post != null)
+                            {
+                                <a class="counts">
+                                    @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.Curtida.Count() > 0).ToList().Count())))
+                                    <p>Curtidas</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="counts">
+                                    @("0");
+                                    <p>Curtidas</p>
+                                </a>
+                            }
+                        </div>
+
+                    </div>
+
                     <div class="cover-edit modal-trigger" data-modal="change-cover-modal">
-                        <i class="mdi mdi-camera"></i>
-                        <span>Alterar foto de capa</span>
+                        <i class="mdi mdi-camera" title="Alterar foto de Capa"></i>
+                        @*<span>Alterar foto de capa</span>*@
                     </div>
                     <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
                     <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
@@ -136,52 +212,48 @@
 
         </div>
 
+       
         <div class="column">
 
             <!-- About sections -->
             <div class="profile-about side-menu">
-                <div class="left-menu">
+                <div class="@(Model.Entity.PerfilPublico ? "left-menu" : "")">
                 @{
                     if (Model.Entity.PerfilPublico)
                     {
                         <form method="post" asp-page="MyProfile" asp-page-handler="SalvarValores">
 
-                            <div class="left-menu-inner">
+                            <div class="classeValores">
+
                                 <div class="menu-item">
                                     <div class="menu-icon">
                                         <i class="mdi mdi-account-heart"></i>
                                         @*<span>Assine por R$ 14,90/mês</span>*@
-                                        <span>
-                                            <input type="text" class="valorProduto" placeholder=" Valor mensal" id="valorMensal" name="ValorMensal" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
-                                        </span>
+                                    <input type="text" class="valorProduto input" placeholder=" Valor mensal" id="valorMensal" name="ValorMensal" value="" onkeyup="mascara(this, mreais);" />
                                     </div>
                                 </div>
-                                <div class="menu-item is-active">
+                                @*<div class="menu-item is-active">
                                     <div class="menu-icon">
                                         <i class="mdi mdi-tag"></i>
                                         <span>Pacotes de Assinatura</span>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="menu-item">
                                     <div class="menu-icon">
                                         <i class="mdi mdi-account-heart"></i>
                                         @*<span>3 meses por R$ 29,90 (10%)</span>*@
-                                        <span>
-                                            <input type="text" class="valorProduto" placeholder=" Valor trimestral (10%)" id="valorTrimestral" name="ValorTrimestral" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
-                                        </span>
+                                        <input type="text" class="valorProduto input" placeholder=" Valor trimestral (10%)" id="valorTrimestral" name="ValorTrimestral" value="" onkeyup="mascara(this, mreais);" />
                                     </div>
                                 </div>
                                 <div class="menu-item">
                                     <div class="menu-icon">
                                         <i class="mdi mdi-account-heart"></i>
                                         @*<span>6 meses por R$ 59,90 (20%)</span>*@
-                                        <span>
-                                            <input type="text" class="valorProduto" placeholder=" Valor semestral (20%)" id="valorSemestral" name="ValorSemestral" style="width:200px" value="" onkeyup="mascara(this, mreais);" size="7" />
-                                        </span>
+                                        <input type="text" class="valorProduto input" placeholder=" Valor semestral (20%)" id="valorSemestral" name="ValorSemestral" value="" onkeyup="mascara(this, mreais);" />
                                     </div>
                                 </div>
                                 <p>
-                                    <button class="button is-solid accent-button replace-button" style="margin-left: 65px;">Salvar Valores</button>
+                                    <button id="btnSalvarValores" class="button is-solid accent-button replace-button" style="margin-left: 65px;">Salvar Valores</button>
                                 </p>
                                 <p>
                                     <span style="" class="has-text-success">@(Model.Mensagem.IsNullOrEmpty() ? string.Empty : Model.Mensagem)</span>
@@ -189,13 +261,13 @@
                             </div>
                         </form>
                     }
-                }                   
+                }
                 </div>
-                <div class="right-content">
+                <div class="@(Model.Entity.PerfilPublico ? "right-content" : "column")">
                     <div id="overview-content" class="content-section is-active">
                         <div class="columns">
                             <div class="column">
-                                <div class="about-summary" style="@(!Model.Entity.PerfilPublico ? "margin-left:-290px" : "")">
+                                <div class="about-summary">
                                     <form method="post" asp-page="MyProfile" asp-page-handler="SalvarSobreMim">
                                         <div class="content">
                                             <h3>Sobre mim</h3>
@@ -208,7 +280,7 @@
                                                 <input type="text" class="input celular" id="PerfilCelular" name="PerfilCelular" value="@Model.Entity.Celular" style="width:150px;" />
                                             </p>
                                             <p>
-                                                <textarea id="PerfilSobreMim" name="PerfilSobreMim" rows="5" style="width:100%;text-align:left;padding:3px;margin-left:18px;" maxlength="140">@(Model.Entity.SobreMim.IsNullOrEmpty() ? "Conte-nos um pouco mais sobre você." : Model.Entity.SobreMim)</textarea>
+                                                <textarea id="PerfilSobreMim" class="textarea" name="PerfilSobreMim" rows="5" style="width:100%;text-align:left;padding:3px;margin-left:18px;" maxlength="140">@(Model.Entity.SobreMim.IsNullOrEmpty() ? "Conte-nos um pouco mais sobre você." : Model.Entity.SobreMim)</textarea>
                                             </p>
                                             <p>
                                                 <button class="button is-solid accent-button replace-button" style="margin-left: 18px;">Salvar</button>
@@ -218,88 +290,6 @@
                                             </p>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <!-- Work block -->
-                                <div class="flex-block">
-                                    <h2 style="font-weight: 900;font-size: 24px;">
-                                        <i class="mdi mdi-checkbox-marked-circle-outline"></i>&nbsp;
-                                        @if (Model.Entity.Post != null)
-                                        {
-                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Count())))
-                                        }
-                                        else
-                                        {
-                                            @("0")
-                                        }
-                                    </h2>
-                                    <div class="flex-block-meta">
-                                        <span>POSTS</span>
-                                    </div>
-                                    <div class="go-button">
-                                        <i data-feather="arrow-right"></i>
-                                    </div>
-                                </div>
-                                <!-- Education block -->
-                                <div class="flex-block">
-                                    <h2 style="font-weight: 900;font-size: 24px;">
-                                        <i class="mdi mdi-image-area"></i>&nbsp;
-                                        @if (Model.Entity.Post != null)
-                                        {
-                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdFotoNavigation != null).ToList().Count())))
-                                        }
-                                        else
-                                        {
-                                            @("0")
-                                        }
-                                    </h2>
-                                    <div class="flex-block-meta">
-                                        <span>FOTOS</span>
-                                    </div>
-                                    <div class="go-button">
-                                        <i data-feather="arrow-right"></i>
-                                    </div>
-                                </div>
-                                <!-- Location block -->
-                                <div class="flex-block">
-                                    <h2 style="font-weight: 900;font-size: 24px;">
-                                        <i class="mdi mdi-movie"></i>&nbsp;
-                                        @if (Model.Entity.Post != null)
-                                        {
-                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.IdVideoNavigation != null).ToList().Count())))
-                                        }
-                                        else
-                                        {
-                                            @("0")
-                                        }
-                                    </h2>
-                                    <div class="flex-block-meta">
-                                        <span>VÍDEOS</span>
-                                    </div>
-                                    <div class="go-button">
-                                        <i data-feather="arrow-right"></i>
-                                    </div>
-                                </div>
-                                <!-- Family block -->
-                                <div class="flex-block">
-                                    <h2 style="font-weight: 900;font-size: 24px;">
-                                        <i class="mdi mdi-thumb-up-outline"></i>&nbsp;
-                                        @if (Model.Entity.Post != null)
-                                        {
-                                            @(string.Format("{0:#,0}", Convert.ToInt64(Model.Entity.Post.Where(x => x.Curtida.Count() > 0).ToList().Count())));
-                                        }
-                                        else
-                                        {
-                                            @("0")
-                                        }
-                                    </h2>
-                                    <div class="flex-block-meta">
-                                        <span>CURTIDAS</span>
-                                    </div>
-                                    <div class="go-button">
-                                        <i data-feather="arrow-right"></i>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -324,11 +314,11 @@
                 <!-- Timeline POST #1 -->
                 <div class="profile-post">
                     <!-- Timeline -->
-                    <div class="time is-hidden-mobile">
+                    @*<div class="time is-hidden-mobile">
                         <div class="img-container">
                             <img src="../@Model.Entity.FotoPerfil" data-demo-src="../@Model.Entity.FotoPerfil" alt="">
                         </div>
-                    </div>
+                    </div>*@
                     <!-- Post -->
                     <div class="card is-post">
                         <!-- Main wrap -->
