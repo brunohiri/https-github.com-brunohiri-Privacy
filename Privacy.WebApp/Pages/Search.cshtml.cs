@@ -20,7 +20,7 @@ namespace Privacy.WebApp.Pages
 
         [BindProperty]
         public List<ResultPesquisaModel> ListPesquisa { get; set; }
-        #endregion
+        #endregion                                                           
 
         #region Construtores
         #endregion
